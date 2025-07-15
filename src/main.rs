@@ -8,18 +8,13 @@ const HTTP_NOT_FOUND: &str = "HTTP/1.1 404 NOT FOUND\r\n";
 
 fn main() {
     // unwrap -> program will panic if bind() returns the error variant
-    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+    let listener = TcpListener::bind("0.0.0.0:7878").unwrap();
     println!("Listening on localhost...");
 
     for stream in listener.incoming() {
         let stream = stream.unwrap();
-
         handle_connection(stream);
     }
-
-    // HTTP-Version Status-Code Reason-Phrase CRLF
-    // headers CRLF
-    // message-body
 }
 
 fn handle_connection(mut stream: TcpStream) {
@@ -44,6 +39,5 @@ fn handle_connection(mut stream: TcpStream) {
     );
 
     stream.write(response.as_bytes()).unwrap();
-
     stream.flush().unwrap();
 }
