@@ -17,4 +17,8 @@ RUN cargo build --release --bin wlog
 FROM debian:bookworm-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app/target/release/wlog /usr/local/bin
+
+# do not panic fam u got the frontend here fam
+COPY assets /app/assets
+
 ENTRYPOINT ["/usr/local/bin/wlog"]
